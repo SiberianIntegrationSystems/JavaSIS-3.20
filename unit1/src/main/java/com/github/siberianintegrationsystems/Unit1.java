@@ -14,8 +14,22 @@ public class Unit1 {
     /**
      * При реализации метода нельзя использовать метод reverse() из класса StringBuilder
      */
+
+    private static void swap(int leftCharacterIndex, int rightCharacterIndex, char [] word)
+    {
+        char leftCharacterTemp = word[leftCharacterIndex];
+        word[leftCharacterIndex] = word[rightCharacterIndex];
+        word[rightCharacterIndex] = leftCharacterTemp;
+    }
+
     private static String revertString() {
-        return "";
+        char[] inputString = INPUT_STRING.toCharArray();
+        int stringLength = inputString.length;
+
+        for(int index = 0; index < stringLength/2; index++)
+            swap(index, (stringLength-index-1), inputString);
+
+        return String.valueOf(inputString);
     }
 
     private static void checkResult(String result) {
