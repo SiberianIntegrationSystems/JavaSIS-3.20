@@ -15,7 +15,22 @@ public class Unit1 {
      * При реализации метода нельзя использовать метод reverse() из класса StringBuilder
      */
     private static String revertString() {
-        return "";
+
+        String resultString = "";
+
+//        //вариант черех строку
+//        for (int i = INPUT_STRING.length()-1; i >= 0; i-- ) {
+//            resultString = resultString + INPUT_STRING.charAt(i);
+//        }
+
+        //вариант через StringBuilder
+        StringBuilder strBuilder = new StringBuilder("");
+        for (int i = INPUT_STRING.length()-1; i >= 0; i-- ) {
+            strBuilder.append(INPUT_STRING.charAt(i));
+        }
+        resultString = strBuilder.toString();
+
+        return resultString;
     }
 
     private static void checkResult(String result) {
