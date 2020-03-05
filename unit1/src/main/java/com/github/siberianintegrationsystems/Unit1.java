@@ -15,10 +15,7 @@ public class Unit1 {
      * При реализации метода нельзя использовать метод reverse() из класса StringBuilder
      */
     private static String revertString() {
-<<<<<<< Updated upstream
-        return "";
-=======
-        
+
         int countChars = INPUT_STRING.length()-1;
         StringBuilder strBuilder = new StringBuilder();
         for (int i = countChars; i >= 0; i-- ) {
@@ -26,7 +23,6 @@ public class Unit1 {
         }
 
         return strBuilder.toString();
->>>>>>> Stashed changes
     }
 
     private static void checkResult(String result) {
