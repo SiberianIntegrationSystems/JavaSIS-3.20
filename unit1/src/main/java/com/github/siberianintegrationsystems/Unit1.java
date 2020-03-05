@@ -15,7 +15,14 @@ public class Unit1 {
      * При реализации метода нельзя использовать метод reverse() из класса StringBuilder
      */
     private static String revertString() {
-        return "";
+
+        int countChars = INPUT_STRING.length()-1;
+        StringBuilder strBuilder = new StringBuilder();
+        for (int i = countChars; i >= 0; i-- ) {
+            strBuilder.append(INPUT_STRING.charAt(i));
+        }
+
+        return strBuilder.toString();
     }
 
     private static void checkResult(String result) {
