@@ -15,7 +15,13 @@ public class Unit1 {
      * При реализации метода нельзя использовать метод reverse() из класса StringBuilder
      */
     private static String revertString() {
-        return "";
+        String st= "";
+        for (int i = INPUT_STRING.length ()-1;i>=0;i--) {
+        st+=INPUT_STRING.charAt (i);
+
+    }
+        System.out.println (st);
+        return st;
     }
 
     private static void checkResult(String result) {
