@@ -1,5 +1,9 @@
 package com.github.siberianintegrationsystems;
 
+
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class Unit1 {
 
     private static final String INPUT_STRING = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
@@ -9,13 +13,17 @@ public class Unit1 {
     public static void main(String[] args) {
         String result = revertString();
         checkResult(result);
+
     }
 
     /**
      * При реализации метода нельзя использовать метод reverse() из класса StringBuilder
      */
     private static String revertString() {
-        return "";
+
+        return IntStream.range(0, INPUT_STRING.length())
+                .mapToObj((i) -> String.valueOf(INPUT_STRING.charAt(INPUT_STRING.length() - i - 1)))
+                .collect(Collectors.joining());
     }
 
     private static void checkResult(String result) {
