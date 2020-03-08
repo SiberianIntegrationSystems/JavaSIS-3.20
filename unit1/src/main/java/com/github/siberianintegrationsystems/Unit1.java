@@ -15,7 +15,17 @@ public class Unit1 {
      * При реализации метода нельзя использовать метод reverse() из класса StringBuilder
      */
     private static String revertString() {
-        return "";
+        if (INPUT_STRING.length() == 0) {
+            System.out.println("empty string");
+            return "";
+        } else {
+            String newSting = new String();
+            for (int i = INPUT_STRING.length() - 1; i > -1; i--) {
+                newSting = newSting.concat(INPUT_STRING.substring(i, i + 1));
+            }
+            ;
+            return newSting;
+        }
     }
 
     private static void checkResult(String result) {
