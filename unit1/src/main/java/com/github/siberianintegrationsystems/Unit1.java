@@ -2,7 +2,7 @@ package com.github.siberianintegrationsystems;
 
 public class Unit1 {
 
-    private static final String INPUT_STRING = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+    public static final String INPUT_STRING = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
         + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
 
@@ -15,7 +15,11 @@ public class Unit1 {
      * При реализации метода нельзя использовать метод reverse() из класса StringBuilder
      */
     private static String revertString() {
-        return "";
+        String result="";
+        for (int i=INPUT_STRING.length()-1;i>-1;i--){
+            result+=INPUT_STRING.charAt(i);
+        }
+        return result;
     }
 
     private static void checkResult(String result) {
