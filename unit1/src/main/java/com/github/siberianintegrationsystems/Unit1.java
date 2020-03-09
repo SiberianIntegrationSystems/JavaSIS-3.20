@@ -2,7 +2,7 @@ package com.github.siberianintegrationsystems;
 
 public class Unit1 {
 
-    public static final String INPUT_STRING = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+    private static final String INPUT_STRING = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
         + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
 
