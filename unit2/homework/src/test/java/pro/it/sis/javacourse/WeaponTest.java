@@ -11,30 +11,55 @@ public class WeaponTest {
     @Test
     public void testPhysicalDamage() {
 
-        Target t = new Target();
-        Weapon w = new Weapon();
-        w.hit(t);
+        Target giant = new IceGiant();
+        Target efreet = new Efreet();
+        Weapon yakutskNightSword = new YakutskNightSword();
+        Weapon flamingAsphaltSword = new FlamingAsphaltSword();
 
-        assertEquals(100, t.getPhysicalDamage());
+        yakutskNightSword.hit(giant);
+        assertEquals(100 - yakutskNightSword.getPhysicalDamage(), giant.getPhysicalHealthPoints());
+
+        flamingAsphaltSword.hit(efreet);
+        assertEquals(100 - flamingAsphaltSword.getPhysicalDamage(), efreet.getPhysicalHealthPoints());
     }
 
     @Test
     public void testFireDamage() {
 
-        Target t = new Target();
-        Weapon w = new Weapon();
-        w.hit(t);
+        Target giant = new IceGiant();
+        Target efreet = new Efreet();
+        Weapon yakutskNightSword = new YakutskNightSword();
+        Weapon flamingAsphaltSword = new FlamingAsphaltSword();
 
-        assertEquals(100, t.getFireDamage());
+        yakutskNightSword.hit(giant);
+        assertEquals(100 - yakutskNightSword.getFireDamage(), giant.getFireHealthPoints());
+
+        flamingAsphaltSword.hit(giant);
+        assertEquals(100 - flamingAsphaltSword.getFireDamage(), giant.getFireHealthPoints());
+        flamingAsphaltSword.hit(giant);
+        assertFalse(giant.isAlive());
+
+        flamingAsphaltSword.hit(efreet);
+        assertEquals(100, efreet.getFireHealthPoints());
     }
 
     @Test
     public void testIceDamage() {
 
-        Target t = new Target();
-        Weapon w = new Weapon();
-        w.hit(t);
+        Target giant = new IceGiant();
+        Target efreet = new Efreet();
+        Weapon yakutskNightSword = new YakutskNightSword();
+        Weapon flamingAsphaltSword = new FlamingAsphaltSword();
 
-        assertEquals(100, t.getIceDamage());
+        flamingAsphaltSword.hit(efreet);
+        assertEquals(100 - flamingAsphaltSword.getIceDamage(), efreet.getIceHealthPoints());
+
+        yakutskNightSword.hit(efreet);
+        assertEquals(100 - yakutskNightSword.getIceDamage(), efreet.getIceHealthPoints());
+        yakutskNightSword.hit(efreet);
+        assertFalse(efreet.isAlive());
+
+        yakutskNightSword.hit(giant);
+        assertEquals(100, giant.getIceHealthPoints());
     }
 }
