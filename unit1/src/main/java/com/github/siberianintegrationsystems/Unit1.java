@@ -15,12 +15,12 @@ public class Unit1 {
      */
     private static String revertString() {
         String stringReverse = INPUT_STRING;
-        int len1 = stringReverse.length();
+        int len = stringReverse.length();
         StringBuffer sb = new StringBuffer();
-        for(int i = len1 - 1; i >= 0; i-- )
+        for(int i = len - 1; i >= 0; i-- )
         {
-            char symbolStringReverse = stringReverse.charAt(i);
-            sb.append(symbolStringReverse);
+            char symbol = stringReverse.charAt(i);
+            sb.append(symbol);
         }
         return sb.toString();
     }
