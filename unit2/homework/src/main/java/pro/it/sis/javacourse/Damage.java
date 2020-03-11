@@ -1,35 +1,36 @@
 package pro.it.sis.javacourse;
 
-public class Target {
-
+public class Damage {
     private int physicalDamage;
 
     private int fireDamage;
 
     private int iceDamage;
 
+    Damage (int p, int f, int i) {
 
-    public void setPhysicalDamage(int p) {
         physicalDamage = p;
-    }
 
-    public void setFireDamage(int f) {
         fireDamage = f;
-    }
 
-    public void setIceDamage(int i) {
         iceDamage = i;
     }
 
-    public int getPhysicalDamage() {
+    public int getWeaponPhysicalDamage() {
+
         return physicalDamage;
+
     }
 
-    public int getFireDamage() {
+    public int getWeaponFireDamage() {
+
         return fireDamage;
+
     }
 
-    public int getIceDamage() {
+    public int getWeaponIceDamage() {
+
         return iceDamage;
+
     }
 }
