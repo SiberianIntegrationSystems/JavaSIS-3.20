@@ -1,41 +1,56 @@
 package pro.it.sis.javacourse;
 
+/**
+ * Класс представляющий собой значения наносимого урона
+ */
 public class Damage {
+    // Максимальный урон
+    private static final int MAX_DAMAGE = 100;
+    // Минимальный урон
+    private static final int MIN_DAMAGE = 0;
 
+    // Значения урона
     private int physicalDamage;
     private int fireDamage;
     private int iceDamage;
 
     public Damage(int physicalDamage, int fireDamage, int iceDamage) {
+        // Получение и запись урона, соответствующего границам
+        this.physicalDamage = getRealDamage(physicalDamage);
+        this.fireDamage = getRealDamage(fireDamage);
+        this.iceDamage = getRealDamage(iceDamage);
+    }
 
-        // Урон не может быть отрицательным или больше 100 (смертельный урон)
+    /**
+     * Метод вычисляющий действительный урон в соответствии с границами возможного урона
+     * @param damage Предлагающийся урон
+     * @return Действительный урон
+     */
+    private int getRealDamage(int damage) {
+        if (damage>MAX_DAMAGE) {
+            // Если предпологаемый урон больше максимума, то урон равен максимуму
+            return MAX_DAMAGE;
+        } else {
+            // Иначе, если предпологаемый урон больше минимума, то урон равен предполагаемому
+            // Иначе урон равен минимуму
+            return Math.max(damage, MIN_DAMAGE);
+        }
 
-        if (physicalDamage>100) this.physicalDamage = 100;
-        else if (physicalDamage>0) this.physicalDamage = physicalDamage;
-
-        if (fireDamage>100) this.fireDamage = 100;
-        else if (fireDamage>0) this.fireDamage = fireDamage;
-
-        if (iceDamage>100) this.iceDamage = 100;
-        else if (iceDamage>0) this.iceDamage = iceDamage;
     }
 
     public void setPhysicalDamage(int physicalDamage) {
-        // Урон не может быть отрицательным или больше 100 (смертельный урон)
-        if (physicalDamage>100) this.physicalDamage = 100;
-        else if (physicalDamage>0) this.physicalDamage = physicalDamage;
+        // Получение и запись урона, соответствующего границам
+        this.physicalDamage = getRealDamage(physicalDamage);
     }
 
     public void setFireDamage(int fireDamage) {
-        // Урон не может быть отрицательным или больше 100 (смертельный урон)
-        if (fireDamage>100) this.fireDamage = 100;
-        else if (fireDamage>0) this.fireDamage = fireDamage;
+        // Получение и запись урона, соответствующего границам
+        this.fireDamage = getRealDamage(fireDamage);
     }
 
     public void setIceDamage(int iceDamage) {
-        // Урон не может быть отрицательным или больше 100 (смертельный урон)
-        if (iceDamage>100) this.iceDamage = 100;
-        else if (iceDamage>0) this.iceDamage = iceDamage;
+        // Получение и запись урона, соответствующего границам
+        this.iceDamage = getRealDamage(iceDamage);
     }
 
     public int getPhysicalDamage() {

@@ -4,6 +4,7 @@ public class Weapon {
 
     private String name;
 
+    // Урон, который наносит данное оружие
     private Damage damageDealt;
 
     public Weapon(String name, Damage damageDealt) {
@@ -16,6 +17,10 @@ public class Weapon {
         this.damageDealt = new Damage(physicalDamage, fireDamage, iceDamage);
     }
 
+    /**
+     * Метод наносящий урон цели
+     * @param target Цель
+     */
     void hit(Target target) {
         target.acceptHit(damageDealt);
     }
