@@ -13,17 +13,28 @@ public class Unit1 {
     public static void main(String[] args) {
         String result = revertString();
         checkResult(result);
+
+
     }
 
     /**
      * При реализации метода нельзя использовать метод reverse() из класса StringBuilder
      * @return
      */
-    private static String revertString() {
-      return IntStream.range(0, INPUT_STRING.length())
-              .mapToObj((i) -> String.valueOf(INPUT_STRING.charAt(INPUT_STRING.length() - i - 1)))
-              .collect(Collectors.joining());
-    }
+    private static String revertString()
+        {
+
+            return INPUT_STRING.chars()
+                    .mapToObj(c -> (char)c)
+                    .reduce("", (s,c) -> c+s, (s1,s2) -> s2+s1);
+        }
+
+
+
+
+
+
+
 
     private static void checkResult(String result) {
         if (INPUT_STRING.equals(new StringBuilder(result).reverse().toString())) {
