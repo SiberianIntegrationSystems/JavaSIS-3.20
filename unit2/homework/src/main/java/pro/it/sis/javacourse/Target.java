@@ -1,19 +1,30 @@
 package pro.it.sis.javacourse;
 
 public class Target {
-
-    public int getPhysicalDamage() {
+    // Метод, в котором происходит увеличение общего нанесенного физического урона
+    public void getPhysicalDamage(int physical) {
+        physicalDamage+=physical;
+    }
+    // Метод, в котором происходит увеличение общего нанесенного урона огнем
+    public void getFireDamage(int fire) {
+        fireDamage+=fire;
+    }
+    // Метод, в котором происходит увеличение общего нанесенного урона холодом
+    public void getIceDamage(int ice) {
+        iceDamage+=ice;
+        }
+    //Вывод нанесенного физического урона
+    public int returnPhysicalDamage() {
         return physicalDamage;
     }
-
-    public int getFireDamage() {
+    //Вывод нанесенного урона огнем
+    public int returnFireDamage() {
         return fireDamage;
     }
-
-    public int getIceDamage() {
+    //Вывод нанесенного урона холодом
+    public int returnIceDamage() {
         return iceDamage;
     }
-
     private int physicalDamage;
 
     private int fireDamage;
