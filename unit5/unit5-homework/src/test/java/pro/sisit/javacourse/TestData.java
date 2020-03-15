@@ -82,8 +82,4 @@ public class TestData {
                     ),
                     valueOf(1)
             );
-
-//    private static BigDecimal valueOf(double value) {
-//        return BigDecimal.valueOf(value).setScale(2);
-//    }
 }
