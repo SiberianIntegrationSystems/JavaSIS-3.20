@@ -26,12 +26,12 @@ public class ProductsServiceTestExamples {
     }
 
     @Test
-    public void testExampleDetectProducerNameSoft() {
+    public void testExampleDetectProducerName() {
 
     }
 
     @Test
-    public void testExampleDetectProducerName() {
+    public void testExampleDetectProducerNameSoft() {
 
     }
 }

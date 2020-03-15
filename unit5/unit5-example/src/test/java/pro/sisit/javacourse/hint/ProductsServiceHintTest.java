@@ -100,20 +100,6 @@ public class ProductsServiceHintTest {
     }
 
     @Test
-    public void testGetExistedProductById() {
-        Product product = ProductsServiceHint.getProductById(getProducts(), getRandomProduct().getId());
-        Assert.assertNotNull(product);
-    }
-
-    @Test
-    public void testGetNotExistedProductById() {
-        long notExistProductId = getNotExistProductId();
-        expectedException.expect(RuntimeException.class);
-        expectedException.expectMessage(String.format("Товар с идентификатором '%s' не найден", notExistProductId));
-        ProductsServiceHint.getProductById(getProducts(), notExistProductId);
-    }
-
-    @Test
     public void testDetectExistedProductProducerName() {
         Product product = getRandomProduct();
         String producerName = ProductsServiceHint.detectProducerName(getProducts(), product.getId());

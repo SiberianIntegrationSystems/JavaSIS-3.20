@@ -27,7 +27,7 @@ public class ProductsService {
     }
 
     /**
-     * Рассчитвает долю НДС для списка продуктов.
+     * Рассчитывает долю НДС для списка продуктов.
      * Долю НДС для одного продукта считаем по формуле: цена * 20 / 120,
      * при этом при делении используется банковское округление.
      */
@@ -41,6 +41,13 @@ public class ProductsService {
      * Метод - в императивном стиле без использования стримов.
      */
     public static Product findProductByIdUnsafe(List<Product> products, long id) {
+        return null;
+    }
+
+    /**
+     * Получает наименование производителя продукта по переданному продукту
+     */
+    public static String getProducerNameByProduct(Product product) {
         return null;
     }
 
@@ -59,23 +66,6 @@ public class ProductsService {
     }
 
     /**
-     * Определяет наименование производителя продукта по переданному идентификатору продукта
-     * Если продукт не найден вернет 'Неизвестный производитель'.
-     */
-    public static String detectProducerNameSoft(List<Product> products, long id) {
-        return null;
-    }
-
-    /**
-     * Получает продукт в переданном списке по переданному идентификатору продукта.
-     * Если продукт найден, то вернет его, иначе выбросит RuntimeException с сообщением
-     * Товар с идентификатором '%s' не найден
-     */
-    public static Product getProductById(List<Product> products, long id) {
-        return null;
-    }
-
-    /**
      * Определяет наименование производителя продукта по переданному идентификатору продукта.
      * Если продукт не найден выбросит RuntimeException с сообщением
      * Товар с идентификатором '%s' не найден
@@ -85,9 +75,10 @@ public class ProductsService {
     }
 
     /**
-     * Получает наименование производителя продукта по переданному продукту
+     * Определяет наименование производителя продукта по переданному идентификатору продукта
+     * Если продукт не найден вернет 'Неизвестный производитель'.
      */
-    public static String getProducerNameByProduct(Product product) {
+    public static String detectProducerNameSoft(List<Product> products, long id) {
         return null;
     }
 }

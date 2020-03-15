@@ -41,7 +41,7 @@ public class ProductsServiceHint {
     }
 
     /**
-     * Рассчитвает долю НДС для списка продуктов.
+     * Рассчитывает долю НДС для списка продуктов.
      * Долю НДС для одного продукта считаем по формуле: цена * 20 / 120,
      * при этом при делении используется банковское округление.
      */
@@ -69,11 +69,18 @@ public class ProductsServiceHint {
     }
 
     /**
+     * Получает наименование производителя продукта по переданному продукту
+     */
+    public static String getProducerNameByProduct(Product product) {
+        return product.getProducer().getName();
+    }
+
+    /**
      * Определяет наименование производителя продукта по переданному идентификатору продукта
      */
     public static String detectProducerNameUnsafe(List<Product> products, long id) {
-        Product product = ProductsServiceHint.findProductByIdUnsafe(products, id);
-        return ProductsServiceHint.getProducerNameByProduct(product);
+        Product product = findProductByIdUnsafe(products, id);
+        return getProducerNameByProduct(product);
     }
 
     /**
@@ -86,41 +93,23 @@ public class ProductsServiceHint {
     }
 
     /**
-     * Определяет наименование производителя продукта по переданному идентификатору продукта
-     * Если продукт не найден вернет 'Неизвестный производитель'.
-     */
-    public static String detectProducerNameSoft(List<Product> products, long id) {
-        return ProductsServiceHint.findProductById(products, id)
-                .map(ProductsServiceHint::getProducerNameByProduct)
-                .orElse("Неизвестный производитель");
-    }
-
-    /**
-     * Получает продукт в переданном списке по переданному идентификатору продукта.
-     * Если продукт найден, то вернет его, иначе выбросит RuntimeException с сообщением
-     * Товар с идентификатором '%s' не найден
-     */
-    public static Product getProductById(List<Product> products, long id) {
-        return products.stream()
-                .filter(product -> product.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException(String.format("Товар с идентификатором '%s' не найден", id)));
-    }
-
-    /**
      * Определяет наименование производителя продукта по переданному идентификатору продукта.
      * Если продукт не найден выбросит RuntimeException с сообщением
      * Товар с идентификатором '%s' не найден
      */
     public static String detectProducerName(List<Product> products, long id) {
-        Product product = ProductsServiceHint.getProductById(products, id);
-        return ProductsServiceHint.getProducerNameByProduct(product);
+        return findProductById(products, id)
+                .map(ProductsServiceHint::getProducerNameByProduct)
+                .orElseThrow(() -> new RuntimeException(String.format("Товар с идентификатором '%s' не найден", id)));
     }
 
     /**
-     * Получает наименование производителя продукта по переданному продукту
+     * Определяет наименование производителя продукта по переданному идентификатору продукта
+     * Если продукт не найден вернет 'Неизвестный производитель'.
      */
-    public static String getProducerNameByProduct(Product product) {
-        return product.getProducer().getName();
+    public static String detectProducerNameSoft(List<Product> products, long id) {
+        return findProductById(products, id)
+                .map(ProductsServiceHint::getProducerNameByProduct)
+                .orElse("Неизвестный производитель");
     }
 }

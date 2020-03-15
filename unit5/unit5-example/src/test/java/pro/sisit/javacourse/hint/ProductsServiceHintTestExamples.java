@@ -48,12 +48,6 @@ public class ProductsServiceHintTestExamples {
     }
 
     @Test
-    public void testExampleDetectProducerNameSoft() {
-        String producerName = ProductsServiceHint.detectProducerNameSoft(ProductTestData.getProducts(), 666);
-        System.out.printf("Наименование производителя: '%s'", producerName);
-    }
-
-    @Test
     public void testExampleDetectProducerName() {
         try {
             String producerName = ProductsServiceHint.detectProducerName(ProductTestData.getProducts(), 666);
@@ -61,5 +55,11 @@ public class ProductsServiceHintTestExamples {
         } catch (RuntimeException ex) {
             System.out.printf("Произошла ошибка: '%s'", ex.toString());
         }
+    }
+
+    @Test
+    public void testExampleDetectProducerNameSoft() {
+        String producerName = ProductsServiceHint.detectProducerNameSoft(ProductTestData.getProducts(), 666);
+        System.out.printf("Наименование производителя: '%s'", producerName);
     }
 }
