@@ -1,7 +1,13 @@
 package pro.it.sis.javacourse;
 
-public class Weapon {
-    void hit(Target target) {
-
+public abstract class Weapon {
+    protected Damage damage;
+    protected Weapon(Damage damage) {
+        this.damage = damage;
     }
+
+    public Damage getDamage() {
+        return damage;
+    }
+
 }

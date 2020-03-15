@@ -7,34 +7,17 @@ import java.nio.file.Watchable;
 import static org.junit.Assert.*;
 
 public class WeaponTest {
-
-    @Test
-    public void testPhysicalDamage() {
-
-        Target t = new Target();
-        Weapon w = new Weapon();
-        w.hit(t);
-
-        assertEquals(100, t.getPhysicalDamage());
-    }
-
     @Test
     public void testFireDamage() {
-
-        Target t = new Target();
-        Weapon w = new Weapon();
-        w.hit(t);
-
-        assertEquals(100, t.getFireDamage());
+        Weapon fireSword = new FireSword(new Damage(0,50,0));
+        Target efreet = new Efreet();
+        efreet.takeDamage(fireSword);
     }
 
     @Test
     public void testIceDamage() {
-
-        Target t = new Target();
-        Weapon w = new Weapon();
-        w.hit(t);
-
-        assertEquals(100, t.getIceDamage());
+        Weapon frozenSword = new FrozenSword(new Damage(0,0,50));
+        Target iceGiant = new IceGiant();
+        iceGiant.takeDamage(frozenSword);
     }
 }
