@@ -8,7 +8,7 @@ public class Main {
         Weapon fireSword = new FireSword(new Damage(0,50,0));
         Target iceGiant = new IceGiant();
         Target efreet = new Efreet();
-        iceGiant.takeDamage(frozenSword); //вызываем метод тэйкдемедж, в параметрах которого принимает какое либо оружие
-        efreet.takeDamage(fireSword); //вызываем метод тэйкдемедж, в параметрах которого принимает какое либо оружие
+        iceGiant.takeDamage(frozenSword); //вызываем метод тэйкдемедж, в параметрах какое либо оружие
+        efreet.takeDamage(fireSword); //вызываем метод тэйкдемедж, в параметрах какое либо оружие
     }
 }

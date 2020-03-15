@@ -5,9 +5,7 @@ public abstract class Weapon {
     protected Weapon(Damage damage) {
         this.damage = damage;
     }
-
     public Damage getDamage() {
         return damage;
     }
-
 }
