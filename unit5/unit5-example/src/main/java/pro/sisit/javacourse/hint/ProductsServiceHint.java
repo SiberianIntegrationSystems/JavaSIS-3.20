@@ -32,7 +32,7 @@ public class ProductsServiceHint {
     /**
      * Получает отсортированный список уникальных производителей переданных продуктов.
      */
-    public static List<Producer> getUniqueProducers(List<Product> products) {
+    public static List<Producer> getUniqueSortedProducers(List<Product> products) {
         return products.stream()
                 .map(Product::getProducer)
                 .distinct()
@@ -49,9 +49,17 @@ public class ProductsServiceHint {
         return products.stream()
                 .peek(product -> System.out.print(product.getName()))
                 .map(Product::getPrice)
-                .map(price -> price.multiply(BigDecimal.valueOf(20.00)).divide(BigDecimal.valueOf(120.00), RoundingMode.HALF_EVEN))
+                .map(price -> price.multiply(BigDecimal.valueOf(20.00))
+                        .divide(BigDecimal.valueOf(120.00), RoundingMode.HALF_EVEN))
                 .peek(tax -> System.out.printf(", доля НДС: %s\n", tax))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    /**
+     * Получает наименование производителя продукта по переданному продукту
+     */
+    public static String extractProductProducerName(Product product) {
+        return product.getProducer().getName();
     }
 
     /**
@@ -69,18 +77,11 @@ public class ProductsServiceHint {
     }
 
     /**
-     * Получает наименование производителя продукта по переданному продукту
-     */
-    public static String getProducerNameByProduct(Product product) {
-        return product.getProducer().getName();
-    }
-
-    /**
      * Определяет наименование производителя продукта по переданному идентификатору продукта
      */
-    public static String detectProducerNameUnsafe(List<Product> products, long id) {
+    public static String getProductProducerNameByIdUnsafe(List<Product> products, long id) {
         Product product = findProductByIdUnsafe(products, id);
-        return getProducerNameByProduct(product);
+        return extractProductProducerName(product);
     }
 
     /**
@@ -97,19 +98,20 @@ public class ProductsServiceHint {
      * Если продукт не найден выбросит RuntimeException с сообщением
      * Товар с идентификатором '%s' не найден
      */
-    public static String detectProducerName(List<Product> products, long id) {
+    public static String getProductProducerNameById(List<Product> products, long id) {
         return findProductById(products, id)
-                .map(ProductsServiceHint::getProducerNameByProduct)
-                .orElseThrow(() -> new RuntimeException(String.format("Товар с идентификатором '%s' не найден", id)));
+                .map(ProductsServiceHint::extractProductProducerName)
+                .orElseThrow(() -> new RuntimeException(
+                        String.format("Товар с идентификатором '%s' не найден", id)));
     }
 
     /**
      * Определяет наименование производителя продукта по переданному идентификатору продукта
      * Если продукт не найден вернет 'Неизвестный производитель'.
      */
-    public static String detectProducerNameSoft(List<Product> products, long id) {
+    public static String getProductProducerNameByIdSoft(List<Product> products, long id) {
         return findProductById(products, id)
-                .map(ProductsServiceHint::getProducerNameByProduct)
+                .map(ProductsServiceHint::extractProductProducerName)
                 .orElse("Неизвестный производитель");
     }
 }

@@ -9,6 +9,13 @@ import lombok.Data;
 @Data
 public class Producer {
 
+    /**
+     * Уникальный идентификатор
+     */
     private final long id;
+
+    /**
+     * Наименование
+     */
     private final String name;
 }

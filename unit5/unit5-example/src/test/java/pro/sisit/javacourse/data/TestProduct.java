@@ -8,15 +8,24 @@ import pro.sisit.javacourse.ProductType;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+/**
+ * Тестовый продукт (обертка-композиция)
+ */
 @Data
 public class TestProduct {
 
+    /**
+     * Продукт
+     */
     private final Product product;
 
+    /**
+     * Рассчитанная доля НДС в цене продукта
+     */
     private final BigDecimal tax;
 
     public TestProduct(long id, String name, ProductType productType, BigDecimal price, Producer producer) {
-        this.product = new Product(id, name, productType, price, producer);
+        this.product = new Product(id, name, productType, producer, price);
         this.tax = calculateTax(price);
     }
 

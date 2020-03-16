@@ -1,8 +1,11 @@
 package pro.sisit.javacourse;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Сервис для работы с продуктами
@@ -13,7 +16,7 @@ public class ProductsService {
     }
 
     /**
-     * Фильтрует переданный список продуктов по переданному типу список продуктов.
+     * Фильтрует переданный список продуктов по переданному типу.
      */
     public static List<Product> filterByType(List<Product> products, ProductType type) {
         return null;
@@ -22,7 +25,7 @@ public class ProductsService {
     /**
      * Получает отсортированный список уникальных производителей переданных продуктов.
      */
-    public static List<Producer> getUniqueProducers(List<Product> products) {
+    public static List<Producer> getUniqueSortedProducers(List<Product> products) {
         return null;
     }
 
@@ -36,6 +39,14 @@ public class ProductsService {
     }
 
     /**
+     * Получает наименование производителя продукта по переданному продукту.
+     * Вспомогательный метод.
+     */
+    public static String extractProductProducerName(Product product) {
+        return null;
+    }
+
+    /**
      * Выполняет поиск продукта в переданном списке по переданному идентификатору продукта.
      * Если продукт найден, то вернет его, иначе вернет null.
      * Метод - в императивном стиле без использования стримов.
@@ -45,16 +56,9 @@ public class ProductsService {
     }
 
     /**
-     * Получает наименование производителя продукта по переданному продукту
-     */
-    public static String getProducerNameByProduct(Product product) {
-        return null;
-    }
-
-    /**
      * Определяет наименование производителя продукта по переданному идентификатору продукта
      */
-    public static String detectProducerNameUnsafe(List<Product> products, long id) {
+    public static String getProductProducerNameByIdUnsafe(List<Product> products, long id) {
         return null;
     }
 
@@ -70,7 +74,7 @@ public class ProductsService {
      * Если продукт не найден выбросит RuntimeException с сообщением
      * Товар с идентификатором '%s' не найден
      */
-    public static String detectProducerName(List<Product> products, long id) {
+    public static String getProductProducerNameById(List<Product> products, long id) {
         return null;
     }
 
@@ -78,7 +82,7 @@ public class ProductsService {
      * Определяет наименование производителя продукта по переданному идентификатору продукта
      * Если продукт не найден вернет 'Неизвестный производитель'.
      */
-    public static String detectProducerNameSoft(List<Product> products, long id) {
+    public static String getProductProducerNameByIdSoft(List<Product> products, long id) {
         return null;
     }
 }

@@ -6,7 +6,6 @@ import lombok.Getter;
 /**
  * Тип продукта
  */
-
 @Getter
 @AllArgsConstructor
 public enum ProductType {
