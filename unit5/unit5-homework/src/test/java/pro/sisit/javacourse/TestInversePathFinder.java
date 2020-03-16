@@ -2,13 +2,11 @@ package pro.sisit.javacourse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pro.sisit.javacourse.InversePathFinder;
 import pro.sisit.javacourse.inverse.BigDecimalRange;
 import pro.sisit.javacourse.inverse.InverseDeliveryTask;
 import pro.sisit.javacourse.inverse.Solution;
 import pro.sisit.javacourse.optimal.DeliveryTask;
 import pro.sisit.javacourse.optimal.Transport;
-
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -219,21 +217,21 @@ public class TestInversePathFinder {
     public void testSortingDataByInfinityRange() {
         testSort(BigDecimalRange.infinityRange(),
                 Arrays.asList(
-                        new Solution(BreadDelivery, GAZelle, valueOf(100)),
-                        new Solution(BreadDelivery, SemiTrailerTruck, valueOf(200)),
-                        new Solution(BreadDelivery, Train, valueOf(700)),
+                        new Solution(CarsDelivery, Tanker, valueOf(250000)),
+                        new Solution(KingKongDelivery, Tanker, valueOf(250000)),
+                        new Solution(SmartphoneDelivery, Tanker, valueOf(250000)),
+                        new Solution(SmartphoneDelivery, Plane, valueOf(100000)),
+                        new Solution(ApplesDelivery, Plane, valueOf(35000)),
+                        new Solution(CarsDelivery, Train, valueOf(30000)),
+                        new Solution(BreadDelivery, Plane, valueOf(2500)),
+                        new Solution(ExpressLetterDelivery, SemiTrailerTruck, valueOf(2000)),
+                        new Solution(ApplesDelivery, SemiTrailerTruck, valueOf(2000)),
                         new Solution(ExpressLetterDelivery, GAZelle, valueOf(1000)),
                         new Solution(ExpressLetterDelivery, Plane, valueOf(1000)),
                         new Solution(ExpressLetterDelivery, Train, valueOf(1000)),
-                        new Solution(ExpressLetterDelivery, SemiTrailerTruck, valueOf(2000)),
-                        new Solution(ApplesDelivery, SemiTrailerTruck, valueOf(2000)),
-                        new Solution(BreadDelivery, Plane, valueOf(2500)),
-                        new Solution(CarsDelivery, Train, valueOf(30000)),
-                        new Solution(ApplesDelivery, Plane, valueOf(35000)),
-                        new Solution(SmartphoneDelivery, Plane, valueOf(100000)),
-                        new Solution(CarsDelivery, Tanker, valueOf(250000)),
-                        new Solution(KingKongDelivery, Tanker, valueOf(250000)),
-                        new Solution(SmartphoneDelivery, Tanker, valueOf(250000))
+                        new Solution(BreadDelivery, Train, valueOf(700)),
+                        new Solution(BreadDelivery, SemiTrailerTruck, valueOf(200)),
+                        new Solution(BreadDelivery, GAZelle, valueOf(100))
                 )
         );
     }
