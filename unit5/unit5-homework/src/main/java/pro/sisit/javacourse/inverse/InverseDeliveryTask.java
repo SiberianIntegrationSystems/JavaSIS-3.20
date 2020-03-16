@@ -26,6 +26,4 @@ public class InverseDeliveryTask {
      * Диапазон цены решенной задачи
      */
     private final BigDecimalRange priceRange;
-
-
 }

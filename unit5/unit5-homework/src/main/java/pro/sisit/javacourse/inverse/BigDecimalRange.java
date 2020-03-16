@@ -49,15 +49,6 @@ public class BigDecimalRange {
         this.isRightOpen = right == null;
     }
 
-    /**
-     * Метод определяет принадлежит ли переданное значение диапазону.
-     * Если передано значение null, то метод должен вернуть false.
-     */
-    public boolean contains(BigDecimal value) {
-        // ToDo: realize me! and start use!
-        return false;
-    }
-
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
