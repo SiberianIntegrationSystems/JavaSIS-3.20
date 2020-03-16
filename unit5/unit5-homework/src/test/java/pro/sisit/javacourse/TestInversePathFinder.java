@@ -1,12 +1,14 @@
-package pro.sisit.javacourse.inverse;
+package pro.sisit.javacourse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pro.sisit.javacourse.inverse.entity.BigDecimalRange;
-import pro.sisit.javacourse.inverse.entity.InverseDeliveryTask;
-import pro.sisit.javacourse.inverse.entity.Solution;
-import pro.sisit.javacourse.optimal.entity.DeliveryTask;
-import pro.sisit.javacourse.optimal.entity.Transport;
+import pro.sisit.javacourse.InversePathFinder;
+import pro.sisit.javacourse.inverse.BigDecimalRange;
+import pro.sisit.javacourse.inverse.InverseDeliveryTask;
+import pro.sisit.javacourse.inverse.Solution;
+import pro.sisit.javacourse.optimal.DeliveryTask;
+import pro.sisit.javacourse.optimal.Transport;
+
 
 import java.util.Arrays;
 import java.util.Collections;

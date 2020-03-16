@@ -1,9 +1,9 @@
 package pro.sisit.javacourse;
 
-import pro.sisit.javacourse.optimal.entity.DeliveryTask;
-import pro.sisit.javacourse.optimal.entity.Route;
-import pro.sisit.javacourse.optimal.entity.RouteType;
-import pro.sisit.javacourse.optimal.entity.Transport;
+import pro.sisit.javacourse.optimal.DeliveryTask;
+import pro.sisit.javacourse.optimal.Route;
+import pro.sisit.javacourse.optimal.RouteType;
+import pro.sisit.javacourse.optimal.Transport;
 
 import java.util.Arrays;
 

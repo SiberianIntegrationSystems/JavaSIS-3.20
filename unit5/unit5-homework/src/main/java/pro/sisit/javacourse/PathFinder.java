@@ -1,7 +1,7 @@
-package pro.sisit.javacourse.optimal;
+package pro.sisit.javacourse;
 
-import pro.sisit.javacourse.optimal.entity.DeliveryTask;
-import pro.sisit.javacourse.optimal.entity.Transport;
+import pro.sisit.javacourse.optimal.DeliveryTask;
+import pro.sisit.javacourse.optimal.Transport;
 
 import java.util.List;
 

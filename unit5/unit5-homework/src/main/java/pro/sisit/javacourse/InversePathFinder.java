@@ -1,7 +1,7 @@
-package pro.sisit.javacourse.inverse;
+package pro.sisit.javacourse;
 
-import pro.sisit.javacourse.inverse.entity.InverseDeliveryTask;
-import pro.sisit.javacourse.inverse.entity.Solution;
+import pro.sisit.javacourse.inverse.InverseDeliveryTask;
+import pro.sisit.javacourse.inverse.Solution;
 
 import java.util.ArrayList;
 import java.util.List;

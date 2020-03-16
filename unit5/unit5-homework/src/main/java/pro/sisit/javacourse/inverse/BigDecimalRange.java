@@ -1,4 +1,4 @@
-package pro.sisit.javacourse.inverse.entity;
+package pro.sisit.javacourse.inverse;
 
 import lombok.Getter;
 

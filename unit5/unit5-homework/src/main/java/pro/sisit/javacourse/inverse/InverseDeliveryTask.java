@@ -1,8 +1,8 @@
-package pro.sisit.javacourse.inverse.entity;
+package pro.sisit.javacourse.inverse;
 
 import lombok.Data;
-import pro.sisit.javacourse.optimal.entity.Transport;
-import pro.sisit.javacourse.optimal.entity.DeliveryTask;
+import pro.sisit.javacourse.optimal.Transport;
+import pro.sisit.javacourse.optimal.DeliveryTask;
 
 import java.util.List;
 

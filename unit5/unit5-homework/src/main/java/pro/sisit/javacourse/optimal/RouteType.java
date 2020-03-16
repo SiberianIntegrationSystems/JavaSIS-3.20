@@ -1,4 +1,4 @@
-package pro.sisit.javacourse.optimal.entity;
+package pro.sisit.javacourse.optimal;
 
 /**
  * Тип маршрута
