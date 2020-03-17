@@ -1,7 +1,6 @@
 package pro.sisit.javacourse;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -19,14 +18,20 @@ public class ProductsService {
      * Фильтрует переданный список продуктов по переданному типу.
      */
     public static List<Product> filterByType(List<Product> products, ProductType type) {
-        return null;
+        return products.stream()
+                       .filter(product -> product.getType().equals(type))
+                       .collect(Collectors.toList());
     }
 
     /**
      * Получает отсортированный список уникальных производителей переданных продуктов.
      */
     public static List<Producer> getUniqueSortedProducers(List<Product> products) {
-        return null;
+        return products.stream()
+                       .map(Product::getProducer)
+                       .sorted(Comparator.comparing(Producer::getName))
+                       .distinct()
+                       .collect(Collectors.toList());
     }
 
     /**
@@ -35,7 +40,11 @@ public class ProductsService {
      * при этом при делении используется банковское округление.
      */
     public static BigDecimal getTotalTax(List<Product> products) {
-        return null;
+        return products.stream()
+                       .map(Product::getPrice)
+                       .map(price -> price.multiply(BigDecimal.valueOf(20.00))
+                                          .divide(BigDecimal.valueOf(120.00), BigDecimal.ROUND_HALF_EVEN))
+                       .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /**
@@ -43,7 +52,7 @@ public class ProductsService {
      * Вспомогательный метод.
      */
     public static String extractProductProducerName(Product product) {
-        return null;
+        return product.getProducer().getName();
     }
 
     /**
@@ -52,6 +61,11 @@ public class ProductsService {
      * Метод - в императивном стиле без использования стримов.
      */
     public static Product findProductByIdUnsafe(List<Product> products, long id) {
+        for (Product product : products) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
         return null;
     }
 
@@ -59,14 +73,18 @@ public class ProductsService {
      * Определяет наименование производителя продукта по переданному идентификатору продукта
      */
     public static String getProductProducerNameByIdUnsafe(List<Product> products, long id) {
-        return null;
+        return extractProductProducerName(
+            findProductByIdUnsafe(products, id)
+        );
     }
 
     /**
      * Выполняет поиск продукта в переданном списке по переданному идентификатору продукта
      */
     public static Optional<Product> findProductById(List<Product> products, long id) {
-        return null;
+        return products.stream()
+                       .filter(product -> product.getId() == id)
+                       .findFirst();
     }
 
     /**
@@ -75,7 +93,10 @@ public class ProductsService {
      * Товар с идентификатором '%s' не найден
      */
     public static String getProductProducerNameById(List<Product> products, long id) {
-        return null;
+        return findProductById(products, id)
+            .map(ProductsService::extractProductProducerName)
+            .orElseThrow(() -> new RuntimeException(
+                String.format("Товар с идентификатором '%s' не найден", id)));
     }
 
     /**
@@ -83,6 +104,8 @@ public class ProductsService {
      * Если продукт не найден вернет 'Неизвестный производитель'.
      */
     public static String getProductProducerNameByIdSoft(List<Product> products, long id) {
-        return null;
+        return findProductById(products, id)
+            .map(ProductsService::extractProductProducerName)
+            .orElse("Неизвестный производитель");
     }
 }
