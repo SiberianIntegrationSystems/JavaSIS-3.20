@@ -84,4 +84,14 @@ public class TestData {
                     ),
                     valueOf(1)
             );
+    
+    public static final DeliveryTask NuclearWeaponDelivery =
+        new DeliveryTask(
+            "Ядерное оружие",
+            Arrays.asList(
+                new Route(RouteType.Road, valueOf(1000)),
+                new Route(RouteType.Sea, valueOf(400))
+            ),
+            valueOf(5000)
+        );
 }
