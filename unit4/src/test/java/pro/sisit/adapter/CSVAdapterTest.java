@@ -2,91 +2,186 @@ package pro.sisit.adapter;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
+import java.io.*;
 import java.nio.file.Paths;
+
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pro.sisit.adapter.impl.CSVAdapter;
+import pro.sisit.adapter.impl.CSVAdapterLog;
+import pro.sisit.model.Author;
 import pro.sisit.model.Book;
+import pro.sisit.model.Library;
 
-// TODO: 2. Описать тестовые кейсы
 
 public class CSVAdapterTest {
 
     @Before
     public void createFile() {
-        // TODO: создать и заполнить csv-файл для сущности Author
-        // TODO: создать и заполнить csv-файл для сущности Book
 
-        // * По желанию можете придумать и свои сущности
+        File authorsFile = Paths.get("test-author-file.csv").toFile();
+        File booksFile = Paths.get("test-book-file.csv").toFile();
+        File librariesFile = Paths.get("test-library-file.csv").toFile();
+        try {
+            authorsFile.createNewFile();
+            booksFile.createNewFile();
+            librariesFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Не удалось создать файл");
+        }
+
+        try (BufferedReader authorReader = new BufferedReader(new FileReader(authorsFile));
+             BufferedWriter authorWriter = new BufferedWriter(new FileWriter(authorsFile, true));
+             BufferedReader bookReader = new BufferedReader(new FileReader(booksFile));
+             BufferedWriter bookWriter = new BufferedWriter(new FileWriter(booksFile, true));
+             BufferedReader libraryReader = new BufferedReader(new FileReader(librariesFile));
+             BufferedWriter libraryWriter = new BufferedWriter(new FileWriter(librariesFile, true))) {
+
+            IOAdapter<Author> authorAdapter = new CSVAdapterLog<>(new CSVAdapter<>(Author.class, authorReader, authorWriter));
+            authorAdapter.append(new Author("Есенин С.А.", "Российская империя"));
+            authorAdapter.append(new Author("Шекспир У.", "Королевство Англия"));
+            authorAdapter.append(new Author("Драйзер Т.", "США"));
+            authorAdapter.append(new Author("Моэм С.", "Франция"));
+
+            IOAdapter<Book> bookAdapter = new CSVAdapterLog<>(new CSVAdapter<>(Book.class, bookReader, bookWriter));
+            bookAdapter.append(new Book("Титан", "Драйзер Т.", "Психологический реализм", "9-78605-736-3"));
+            bookAdapter.append(new Book("Трагедия о Кориолане", "Шекспир У.", "Трагедия", "8-234-84233-6"));
+            bookAdapter.append(new Book("Театр", "Моэм С.", "Роман", "9-36552-745-0"));
+
+            IOAdapter<Library> libraryAdapter = new CSVAdapterLog<>(new CSVAdapter<>(Library.class, libraryReader, libraryWriter));
+            libraryAdapter.append(new Library("ГПНТБ", "Новосибирск", 109752));
+            libraryAdapter.append(new Library("РГБ", "Москва", 534722));
+            libraryAdapter.append(new Library("Библиотека СФУ", "Красноярск", 56072));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Не удалось записать файлы");
+        }
     }
 
     @After
     public void deleteFile() {
-        // TODO: удалить файлы после тестирования
+        File authorsFile = Paths.get("test-author-file.csv").toFile();
+        File booksFile = Paths.get("test-book-file.csv").toFile();
+        File librariesFile = Paths.get("test-library-file.csv").toFile();
+        librariesFile.delete();
+        authorsFile.delete();
+        booksFile.delete();
     }
 
     @Test
-    public void testRead() throws IOException {
+    public void testRead() {
 
-        Path bookFilePath = Paths.get("test-book-file.csv");
+        File authorsFile = Paths.get("test-author-file.csv").toFile();
+        File booksFile = Paths.get("test-book-file.csv").toFile();
+        File librariesFile = Paths.get("test-library-file.csv").toFile();
 
-        BufferedReader bookReader = new BufferedReader(
-            new FileReader(bookFilePath.toFile()));
+        try (BufferedReader authorReader = new BufferedReader(new FileReader(authorsFile));
+             BufferedWriter authorWriter = new BufferedWriter(new FileWriter(authorsFile, true));
+             BufferedReader bookReader = new BufferedReader(new FileReader(booksFile));
+             BufferedWriter bookWriter = new BufferedWriter(new FileWriter(booksFile, true));
+             BufferedReader libraryReader = new BufferedReader(new FileReader(librariesFile));
+             BufferedWriter libraryWriter = new BufferedWriter(new FileWriter(librariesFile, true))) {
 
-        BufferedWriter bookWriter = new BufferedWriter(
-            new FileWriter(bookFilePath.toFile(), true));
+            // Тесты сущности Author
+            IOAdapter<Author> authorAdapter = new CSVAdapterLog<>(new CSVAdapter<>(Author.class, authorReader, authorWriter));
+            Author author = authorAdapter.read(1);
+            assertEquals("Шекспир У.", author.getName());
+            assertEquals("Королевство Англия", author.getBirthPlace());
+            Author expectedAuthor = new Author(
+                    "Есенин С.А.",
+                    "Российская империя"
+            );
+            Author actualAuthor = authorAdapter.read(0);
+            assertEquals(expectedAuthor, actualAuthor);
 
-        CSVAdapter<Book> bookCsvAdapter =
-            new CSVAdapter(Book.class, bookReader, bookWriter);
+            // Тесты сущности Book
+            IOAdapter<Book> bookAdapter = new CSVAdapterLog<>(new CSVAdapter<>(Book.class, bookReader, bookWriter));
+            Book book = bookAdapter.read(1);
+            assertEquals("Трагедия о Кориолане", book.getName());
+            assertEquals("Шекспир У.", book.getAuthor());
+            assertEquals("Трагедия", book.getGenre());
+            assertEquals("8-234-84233-6", book.getIsbn());
 
-        Book book1 = bookCsvAdapter.read(1);
-        assertEquals("Глуховский", book1.getAuthor());
-        assertEquals("Будущее", book1.getName());
-        assertEquals("978-5-17-118366-0", book1.getIsbn());
-        assertEquals("Научная фантастика", book1.getGenre());
+            Book expectedBook = new Book(
+                    "Титан",
+                    "Драйзер Т.",
+                    "Психологический реализм",
+                    "9-78605-736-3");
+            Book actualBook = bookAdapter.read(0);
+            assertEquals(expectedBook, actualBook);
 
-        Book expectedBook0 = new Book(
-            "Убик",
-            "Филип Дик",
-            "Научная фантастика",
-            "978-5-699-97309-5");
-        Book actualBook0 = bookCsvAdapter.read(0);
-        assertEquals(expectedBook0, actualBook0);
+            // Тесты сущности Library
+            IOAdapter<Library> libraryAdapter = new CSVAdapterLog<>(new CSVAdapter<>(Library.class, libraryReader, libraryWriter));
+            Library library = libraryAdapter.read(1);
+            assertEquals("РГБ", library.getName());
+            assertEquals("Москва", library.getAddress());
+            assertEquals(534722, library.getCountOfBook());
 
-        // TODO: написать тесты для проверки сущности автора
+            Library expectedLibrary = new Library(
+                    "ГПНТБ",
+                    "Новосибирск",
+                    109752
+            );
+            Library actualLibrary = libraryAdapter.read(0);
+            assertEquals(expectedLibrary, actualLibrary);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Тесты на чтение не пройдены");
+        }
     }
 
     @Test
-    public void testAppend() throws IOException {
+    public void testAppend() {
 
-        Path bookFilePath = Paths.get("test-book-file.csv");
+        File authorsFile = Paths.get("test-author-file.csv").toFile();
+        File booksFile = Paths.get("test-book-file.csv").toFile();
+        File librariesFile = Paths.get("test-library-file.csv").toFile();
 
-        BufferedReader bookReader = new BufferedReader(
-            new FileReader(bookFilePath.toFile()));
+        try (BufferedReader authorReader = new BufferedReader(new FileReader(authorsFile));
+             BufferedWriter authorWriter = new BufferedWriter(new FileWriter(authorsFile, true));
+             BufferedReader bookReader = new BufferedReader(new FileReader(booksFile));
+             BufferedWriter bookWriter = new BufferedWriter(new FileWriter(booksFile, true));
+             BufferedReader libraryReader = new BufferedReader(new FileReader(librariesFile));
+             BufferedWriter libraryWriter = new BufferedWriter(new FileWriter(librariesFile, true))) {
 
-        BufferedWriter bookWriter = new BufferedWriter(
-            new FileWriter(bookFilePath.toFile(), true));
+            // Тесты сущности Author
+            IOAdapter<Author> authorAdapter = new CSVAdapterLog<>(new CSVAdapter<>(Author.class, authorReader, authorWriter));
+            Author newAuthor = new Author(
+                    "Кори Дж.",
+                    "Великобритания"
+            );
+            int appendIndex = authorAdapter.append(newAuthor);
+            Author authorInIndex = authorAdapter.read(appendIndex);
+            assertEquals(newAuthor, authorInIndex);
 
-        CSVAdapter<Book> bookCsvAdapter =
-            new CSVAdapter(Book.class, bookReader, bookWriter);
+            // Тесты сущности Book
+            IOAdapter<Book> bookAdapter = new CSVAdapterLog<>(new CSVAdapter<>(Book.class, bookReader, bookWriter));
+            Book newBook = new Book(
+                    "Финансист",
+                    "Драйзер Т.",
+                    "Психологический реализм",
+                    "9-78235-341-0");
+            int bookIndex = bookAdapter.append(newBook);
+            Book bookInIndex = bookAdapter.read(bookIndex);
+            assertEquals(newBook, bookInIndex);
 
-        Book newBook = new Book(
-            "Чертоги разума. Убей в себе идиота!",
-            "Андрей Курпатов",
-            "Психология",
-            "978-5-906902-91-7");
+            // Тесты сущности Library
+            IOAdapter<Library> libraryAdapter = new CSVAdapterLog<>(new CSVAdapter<>(Library.class, libraryReader, libraryWriter));
+            Library newLibrary = new Library(
+                    "Библиотека Конгресса",
+                    "Вашингтон",
+                    22934752
+            );
+            int libraryIndex = libraryAdapter.append(newLibrary);
+            Library libraryInIndex = libraryAdapter.read(libraryIndex);
+            assertEquals(newLibrary, libraryInIndex);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Тесты на запись не пройдены");
+        }
 
-        int bookIndex = bookCsvAdapter.append(newBook);
-        Book bookAtIndex = bookCsvAdapter.read(bookIndex);
-        assertEquals(newBook, bookAtIndex);
-
-        // TODO: написать тесты для проверки сущности автора
     }
 }
