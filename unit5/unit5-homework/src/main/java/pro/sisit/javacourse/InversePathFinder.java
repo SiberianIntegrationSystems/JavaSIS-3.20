@@ -2,9 +2,15 @@ package pro.sisit.javacourse;
 
 import pro.sisit.javacourse.inverse.InverseDeliveryTask;
 import pro.sisit.javacourse.inverse.Solution;
+import pro.sisit.javacourse.optimal.DeliveryTask;
+import pro.sisit.javacourse.optimal.Route;
+import pro.sisit.javacourse.optimal.Transport;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InversePathFinder {
 
@@ -24,7 +30,28 @@ public class InversePathFinder {
      * то функция должна вернуть пустой список доступных решений.
      */
     public List<Solution> getAllSolutions(InverseDeliveryTask task) {
-        // ToDo: realize me!
-        return new ArrayList<>();
+
+        if (task == null || task.getPriceRange() == null || task.getTasks() == null || task.getTransports() == null) {
+            return new ArrayList<>();
+        }
+
+        return task.getTasks().stream()
+                .flatMap(deliveryTask -> task.getTransports().stream()
+                        .map(transport ->
+                                new Solution(deliveryTask, transport, calculatePrice(deliveryTask, transport))))
+                .filter(solution -> solution.getPrice()!=null)
+                .filter(solution -> task.getPriceRange().containedInRange(solution.getPrice()))
+                .filter(solution -> solution.getTransport().getVolume()
+                        .compareTo(solution.getDeliveryTask().getVolume()) >= 0)
+                .sorted(Comparator.comparing(Solution::getPrice).reversed().thenComparing(solution -> solution.getDeliveryTask().getName()))
+                .collect(Collectors.toList());
+    }
+
+    private BigDecimal calculatePrice(DeliveryTask task, Transport transport) {
+        return task.getRoutes().stream()
+                .filter(route -> route.getType().equals(transport.getType()))
+                .min(Comparator.comparing(Route::getLength))
+                .map(route -> route.getLength().multiply(transport.getPrice()))
+                .orElse(null);
     }
 }
