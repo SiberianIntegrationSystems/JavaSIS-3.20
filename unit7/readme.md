@@ -21,7 +21,7 @@
 
 ### Помощь
 
-Для формирования запроса с заголовками вас необходимо сформировать специальную сущность `HttpEntity`. И воспользоваться методом класса `RestTemplate` - `exchange`.
+Для формирования запроса с заголовками вам необходимо создать специальную сущность `HttpEntity`. И воспользоваться методом класса `RestTemplate` - `exchange`.
 
 Для того, чтобы принять дополнительный параметр в команде `shell`, вам нужно воспользоваться специальной аннотацией `@ShellOption`. Пример:
 ```Java
@@ -29,8 +29,7 @@
 public String joke(
   @ShellOption(defaultValue = "NERDY") 
     String category) {
-  lastJoke = jokeService.getJoke(category);
-  return lastJoke;
+  return jokeService.getJoke(category);
 }
 ```
 
