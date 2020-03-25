@@ -15,7 +15,9 @@
 > Дополнительное описание данного сервиса можно узнать тут: https://rapidapi.com/community/api/open-weather-map/endpoints
 
 **HTTP-заголовки**
-||Название||Значение||
+
+|Название|Значение|
+|---|---|
 |x-rapidapi-host|community-open-weather-map.p.rapidapi.com|
 |x-rapidapi-key|cdd96ad95amsheebcca53e65aac1p136010jsn18e30e4e6350|
 
