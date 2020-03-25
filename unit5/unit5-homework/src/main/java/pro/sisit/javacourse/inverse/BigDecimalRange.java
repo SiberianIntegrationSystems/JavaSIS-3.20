@@ -49,6 +49,11 @@ public class BigDecimalRange {
         this.isRightOpen = right == null;
     }
 
+    public boolean containedInRange(BigDecimal value) {
+        return  (isLeftOpen || (isLeftStrict ? left.compareTo(value) < 0 : left.compareTo(value) <= 0 )) &&
+                (isRightOpen || (isRightStrict ? right.compareTo(value) > 0 : right.compareTo(value) >= 0));
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
