@@ -12,7 +12,7 @@
 
 **Адрес API** - `https://community-open-weather-map.p.rapidapi.com/weather?units=metric&mode=json&q=Красноярск`
 
-> Дополнительное описание данного сервиса можно узнать тут тут: https://rapidapi.com/community/api/open-weather-map/endpoints
+> Дополнительное описание данного сервиса можно узнать тут: https://rapidapi.com/community/api/open-weather-map/endpoints
 
 **HTTP-заголовки**
 ||Название||Значение||
