@@ -17,6 +17,8 @@ public class TestData {
     public static final Transport Tanker = new Transport("Танкер", valueOf(200), valueOf(100), RouteType.Sea);
     public static final Transport Train = new Transport("Поезд", valueOf(100), valueOf(10), RouteType.Railway);
     public static final Transport SemiTrailerTruck = new Transport("Фура", valueOf(5), valueOf(2), RouteType.Road);
+    public static final Transport BelAZ = new Transport("БелАЗ-75600", valueOf(10000), valueOf(50), RouteType.Road);
+    public static final Transport Submarine = new Transport("Подводная лодка", valueOf(5000), valueOf(100), RouteType.Sea);
 
     public static final DeliveryTask KingKongDelivery =
             new DeliveryTask(
@@ -82,4 +84,14 @@ public class TestData {
                     ),
                     valueOf(1)
             );
+    
+    public static final DeliveryTask NuclearWeaponDelivery =
+        new DeliveryTask(
+            "Ядерное оружие",
+            Arrays.asList(
+                new Route(RouteType.Road, valueOf(1000)),
+                new Route(RouteType.Sea, valueOf(400))
+            ),
+            valueOf(5000)
+        );
 }

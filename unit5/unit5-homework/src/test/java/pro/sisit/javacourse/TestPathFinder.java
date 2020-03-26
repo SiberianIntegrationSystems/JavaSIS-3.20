@@ -21,7 +21,7 @@ import static pro.sisit.javacourse.TestData.*;
 public class TestPathFinder {
 
     private List<Transport> getAvailableTransport() {
-        return Arrays.asList(GAZelle, Plane, Tanker, Train, SemiTrailerTruck);
+        return Arrays.asList(GAZelle, Plane, Tanker, Train, SemiTrailerTruck, Submarine, BelAZ);
     }
 
     public PathFinder getPathFinder() {
@@ -62,7 +62,8 @@ public class TestPathFinder {
                     new Object[]{SmartphoneDelivery, Plane},
                     new Object[]{CarsDelivery, Train},
                     new Object[]{BreadDelivery, GAZelle},
-                    new Object[]{KingKongDelivery, Tanker}
+                    new Object[]{KingKongDelivery, Tanker},
+                    new Object[]{NuclearWeaponDelivery, Submarine}
             ).map(Arguments::of);
         }
     }
