@@ -31,7 +31,7 @@ public class Author implements CSVObject {
      */
     @Override
     public void fillField(List<String> list) {
-        if (list.size() == this.getClass().getDeclaredFields().length) {
+        if (list.size() == 2) {
             name = list.get(0);
             birthPlace = list.get(1);
         } else {

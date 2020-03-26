@@ -35,7 +35,7 @@ public class Book implements CSVObject {
      */
     @Override
     public void fillField(List<String> list) {
-        if(list.size() == this.getClass().getDeclaredFields().length) {
+        if(list.size() == 4) {
             name = list.get(0);
             author = list.get(1);
             genre = list.get(2);

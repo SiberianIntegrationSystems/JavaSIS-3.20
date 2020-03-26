@@ -3,38 +3,35 @@ package pro.sisit.adapter.impl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import pro.sisit.CSVDelimiter;
 import pro.sisit.adapter.IOAdapter;
 import pro.sisit.model.CSVObject;
-
-// 1. TODO: написать реализацию адаптера
+import pro.sisit.model.CSVObjectFactory;
+import pro.sisit.model.CSVObjectType;
 
 // Класс, который будет работать с адаптером,
-// должен реализовывать интерфейс FieldPlaceholder
+// должен реализовывать интерфейс CSVObject
 // и иметь конструктор по умолчанию
-public class CSVAdapter<T extends CSVObject> implements IOAdapter<T>, CSVDelimiter {
+public class CSVAdapter<T extends CSVObject> implements IOAdapter<T> {
 
     private Class<T> entityType;
+    private final CSVObjectFactory csvObjectFactory;
     private BufferedReader reader;
     private BufferedWriter writer;
 
-    public CSVAdapter(Class<T> entityType, BufferedReader reader,
-        BufferedWriter writer) {
+    private final static String DELIMITER = ";";
+    private final static int readAheadLimit = 100000;
+
+    public CSVAdapter(Class<T> entityType, CSVObjectFactory csvObjectFactory,
+                      BufferedReader reader, BufferedWriter writer) {
 
         this.entityType = entityType;
+        this.csvObjectFactory = csvObjectFactory;
         this.reader = reader;
         this.writer = writer;
-        try {
-            reWrite();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Не получается создать объект");
-        }
     }
 
     /**
@@ -45,45 +42,44 @@ public class CSVAdapter<T extends CSVObject> implements IOAdapter<T>, CSVDelimit
     @Override
     public T read(int index) {
         // Создание переменной типа T
-        T newT = null;
+        T resultObject = null;
         try {
             // Запоминаем начальную позицию
-            reader.mark(100000);
-            // Получение объекта типа T, с пмощью пустого конструктора
-            newT = entityType.getDeclaredConstructor().newInstance();
+            reader.mark(readAheadLimit);
+            // Получение объекта
+            switch (entityType.getSimpleName()) {
+                case "Author":
+                    resultObject = (T) csvObjectFactory.createCSVObject(CSVObjectType.AUTHOR);
+                    break;
+                case "Book":
+                    resultObject = (T) csvObjectFactory.createCSVObject(CSVObjectType.BOOK);
+                    break;
+                case "Library":
+                    resultObject = (T) csvObjectFactory.createCSVObject(CSVObjectType.LIBRARY);
+                    break;
+                default:
+                    throw new RuntimeException("Попытка создания неизвестного объекта");
+            }
             // Переход к нужной строке
             goToDesiredLine(index);
             // Считывание строки
             String string = reader.readLine();
             // Если ничего не считалось, то выбрасывается исключение, т.к. строки нет
-            if (string==null) throw new RuntimeException(String.format("Файл не имеет строки под номером %d", index));
+            if (string==null) {
+                throw new RuntimeException(
+                        String.format("Файл не имеет строки под номером %d", index));
+            }
             // Разбиение строки на список параметров
             List<String> listOfParameters = Arrays.asList(string.split(DELIMITER));
             // Запонение полей объекта
-            newT.fillField(listOfParameters);
+            resultObject.fillField(listOfParameters);
             // Сбрасываем позицию к началу
             reader.reset();
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Ошибка создания объекта с помощью пустого конструктора");
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Ошибка чтения файла");
         }
-        return newT;
-    }
-
-    /**
-     * Метод перезаписи файла для того,
-     * чтобы дальнейшая запись шла в конец файла
-     * @throws IOException Ошибка работы с файлом
-     */
-    private void reWrite() throws IOException {
-        for (String s: getLines()) {
-            writer.write(s);
-            writer.newLine();
-        }
-        writer.flush();
+        return resultObject;
     }
 
     /**
@@ -93,7 +89,7 @@ public class CSVAdapter<T extends CSVObject> implements IOAdapter<T>, CSVDelimit
      */
     private List<String> getLines() throws IOException {
         List<String> listOfLines = new ArrayList<>();
-        reader.mark(100000);
+        reader.mark(readAheadLimit);
         String s;
         while ((s = reader.readLine()) != null) {
             listOfLines.add(s);
@@ -122,7 +118,7 @@ public class CSVAdapter<T extends CSVObject> implements IOAdapter<T>, CSVDelimit
     private int countOfLen() throws IOException {
         int count = 0;
         String s;
-        reader.mark(100000);
+        reader.mark(readAheadLimit);
         while ((s = reader.readLine()) != null) {
             count++;
         }
@@ -138,6 +134,9 @@ public class CSVAdapter<T extends CSVObject> implements IOAdapter<T>, CSVDelimit
     @Override
     public int append(CSVObject entity) {
         int index = -1;
+        if (entity == null) {
+            return index;
+        }
         try {
             writer.write(entity.getCSVString());
             writer.newLine();
