@@ -1,17 +1,17 @@
 package pro.sisit.model;
 
 public class CSVObjectFactory {
-    public CSVObject createCSVObject(CSVObjectType type) {
+    public CSVObject createCSVObject(String type) {
         CSVObject csvObject = null;
 
         switch (type) {
-            case AUTHOR:
+            case "Author":
                 csvObject = new Author();
                 break;
-            case BOOK:
+            case "Book":
                 csvObject = new Book();
                 break;
-            case LIBRARY:
+            case "Library":
                 csvObject = new Library();
                 break;
         }

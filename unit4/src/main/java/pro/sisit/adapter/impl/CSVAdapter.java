@@ -10,7 +10,6 @@ import java.util.List;
 import pro.sisit.adapter.IOAdapter;
 import pro.sisit.model.CSVObject;
 import pro.sisit.model.CSVObjectFactory;
-import pro.sisit.model.CSVObjectType;
 
 // Класс, который будет работать с адаптером,
 // должен реализовывать интерфейс CSVObject
@@ -47,19 +46,8 @@ public class CSVAdapter<T extends CSVObject> implements IOAdapter<T> {
             // Запоминаем начальную позицию
             reader.mark(readAheadLimit);
             // Получение объекта
-            switch (entityType.getSimpleName()) {
-                case "Author":
-                    resultObject = (T) csvObjectFactory.createCSVObject(CSVObjectType.AUTHOR);
-                    break;
-                case "Book":
-                    resultObject = (T) csvObjectFactory.createCSVObject(CSVObjectType.BOOK);
-                    break;
-                case "Library":
-                    resultObject = (T) csvObjectFactory.createCSVObject(CSVObjectType.LIBRARY);
-                    break;
-                default:
-                    throw new RuntimeException("Попытка создания неизвестного объекта");
-            }
+            resultObject = (T) csvObjectFactory.createCSVObject(entityType.getSimpleName());
+
             // Переход к нужной строке
             goToDesiredLine(index);
             // Считывание строки
