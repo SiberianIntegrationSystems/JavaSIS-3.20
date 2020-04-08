@@ -17,9 +17,9 @@
 Не забудьте выделить бизнес-логику в отдельный слой, который будет лежать в пакете "service"!
 
 ### Материалы по **Spring Data** для изучения
-**Введение в Spring Data** - https://www.baeldung.com/the-persistence-layer-with-spring-data-jpa
-**Немного о @Query** - https://www.baeldung.com/spring-data-jpa-query
-**Документация** - https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#reference
+**Введение в Spring Data** - https://www.baeldung.com/the-persistence-layer-with-spring-data-jpa  
+**Немного о @Query** - https://www.baeldung.com/spring-data-jpa-query  
+**Документация** - https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#reference  
 
 
 **Всем желаем успехов при выполнении домашнего задания!**
