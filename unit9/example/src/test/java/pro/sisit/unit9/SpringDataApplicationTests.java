@@ -1,17 +1,22 @@
 package pro.sisit.unit9;
 
+import lombok.Lombok;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import pro.sisit.unit9.data.AuthorOfBookRepository;
-import pro.sisit.unit9.data.AuthorRepository;
-import pro.sisit.unit9.data.BookRepository;
-import pro.sisit.unit9.entity.Author;
-import pro.sisit.unit9.entity.AuthorOfBook;
-import pro.sisit.unit9.entity.Book;
+import pro.sisit.unit9.data.*;
+import pro.sisit.unit9.entity.*;
+
+import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.concurrent.CompletionStage;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,6 +30,15 @@ public class SpringDataApplicationTests {
 
 	@Autowired
 	private AuthorOfBookRepository authorOfBookRepository;
+
+	@Autowired
+	private CustomerRepository customerRepository;
+
+	@Autowired
+	private PurchasedBookRepository purchasedBookRepository;
+
+	@Autowired
+	private PurchaseBookServiceImpl purchaseBookServiceImpl;
 
 	@Before
 	public void init() {
@@ -83,6 +97,89 @@ public class SpringDataApplicationTests {
 		authorOfBook4.setAuthor(author3);
 		authorOfBook4.setBook(book4);
 		authorOfBookRepository.save(authorOfBook4);
+
+		Customer customer1 = new Customer();
+		customer1.setName("Антон");
+		customer1.setAddress("г. Братск");
+		customerRepository.save(customer1);
+
+		Customer customer2 = new Customer();
+		customer2.setName("Катерина");
+		customer2.setAddress("г. Красноярск");
+		customerRepository.save(customer2);
+
+		PurchasedBook purchased1 = new PurchasedBook();
+		purchased1.setBook(book);
+		purchased1.setPrice(BigDecimal.valueOf(1000.0));
+		purchased1.setCustomer(customer1);
+		purchasedBookRepository.save(purchased1);
+
+		PurchasedBook purchased2 = new PurchasedBook();
+		purchased2.setBook(book2);
+		purchased2.setPrice(BigDecimal.valueOf(1500.0));
+		purchased2.setCustomer(customer1);
+		purchasedBookRepository.save(purchased2);
+
+		PurchasedBook purchased3 = new PurchasedBook();
+		purchased3.setBook(book3);
+		purchased3.setPrice(BigDecimal.valueOf(2000.0));
+		purchased3.setCustomer(customer1);
+		purchasedBookRepository.save(purchased3);
+
+		PurchasedBook purchased4 = new PurchasedBook();
+		purchased4.setBook(book);
+		purchased4.setPrice(BigDecimal.valueOf(1000.0));
+		purchased4.setCustomer(customer2);
+		purchasedBookRepository.save(purchased4);
+
+		PurchasedBook purchased5 = new PurchasedBook();
+		purchased5.setBook(book3);
+		purchased5.setPrice(BigDecimal.valueOf(1000.0));
+		purchased5.setCustomer(customer2);
+		purchasedBookRepository.save(purchased5);
+
+	}
+
+	@Test
+	public void testCountTotalPriceBook() {
+//		Optional<Book> book1 = bookRepository.findById(Long.valueOf(1));
+//		if (book1.isPresent()) {
+//			assertEquals(new BigDecimal("2000.00"), purchaseBookServiceImpl.countTotalPriceBook(book1.get()));
+//		}
+//
+//		Optional<Customer> customer = customerRepository.findById(Long.valueOf(1));
+//		if (customer.isPresent()) {
+//			assertEquals(new BigDecimal("4500.00"), purchaseBookServiceImpl.countTotalPurchaseCustomer(customer.get()));
+//		}
+	}
+
+	@Test
+	public void testFindPurchasedBook() {
+//		Optional<Book> book1 = bookRepository.findById(Long.valueOf(1));
+//		if (book1.isPresent()) {
+//			assertEquals(2, purchasedBookRepository.findPurchaseByBook(book1.get()).size());
+//		}
+//
+//		Optional<Customer> customer = customerRepository.findById(Long.valueOf(2));
+//		if (customer.isPresent()) {
+//			assertEquals(2, purchasedBookRepository.findPurchaseByCustomer(customer.get()).size());
+//		}
+	}
+
+	@Test
+	public void testSavePurchase() {
+//		long count = purchasedBookRepository.count();
+//		long expected_count = 5;
+//
+//		assertEquals(expected_count,count);
+	}
+
+	@Test
+	public void testSaveCustomer() {
+//		long count = customerRepository.count();
+//		long expected_count = 2;
+//
+//		assertEquals(expected_count,count);
 	}
 
 	@Test
