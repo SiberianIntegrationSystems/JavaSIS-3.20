@@ -16,7 +16,7 @@ public interface BookRepository extends CrudRepository<Book, Long>, PagingAndSor
     @Query("select aob.book from "
             + "AuthorOfBook aob "
             + "join aob.author "
-            + "where aob.author.lastname = ?1")
-    List<Book> findByAuthor(String lastname);
+            + "where aob.author.lastName = ?1")
+    List<Book> findByAuthor(String lastName);
 
 }

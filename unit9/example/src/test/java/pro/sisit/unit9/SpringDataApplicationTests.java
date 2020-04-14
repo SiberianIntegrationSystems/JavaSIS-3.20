@@ -1,88 +1,182 @@
 package pro.sisit.unit9;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import pro.sisit.unit9.data.AuthorOfBookRepository;
-import pro.sisit.unit9.data.AuthorRepository;
-import pro.sisit.unit9.data.BookRepository;
-import pro.sisit.unit9.entity.Author;
-import pro.sisit.unit9.entity.AuthorOfBook;
-import pro.sisit.unit9.entity.Book;
+import pro.sisit.unit9.entity.*;
+import pro.sisit.unit9.service.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringDataApplicationTests {
 
-	@Autowired
-	private BookRepository bookRepository;
+	private static final int cost1 = 599;
+	private static final int cost2 = 395;
+	private static final int cost3 = 490;
+	private static final int cost4 = 415;
 
 	@Autowired
-	private AuthorRepository authorRepository;
+	private BookService bookService;
 
 	@Autowired
-	private AuthorOfBookRepository authorOfBookRepository;
+	private CustomerService customerService;
+
+	@Autowired
+	private AuthorService authorService;
+
+	@Autowired
+	private AuthorOfBookService authorOfBookService;
+
+	@Autowired
+	private PurchasedBookService purchasedBookService;
 
 	@Before
 	public void init() {
-		Book book = new Book();
-		book.setDescription("Увлекательные приключения Тома Сойера");
-		book.setTitle("Приключения Тома Сойера");
-		book.setYear(1876);
-		bookRepository.save(book);
+		Book book1 = new Book();
+		book1.setDescription("Увлекательные приключения Тома Сойера");
+		book1.setTitle("Приключения Тома Сойера");
+		book1.setYear(1876);
+		bookService.addBook(book1);
 
 		Book book2 = new Book();
-		book2.setTitle("Михаил Строгов");
-		book2.setYear(1876);
-		bookRepository.save(book2);
-
-		Book book3 = new Book();
-		book3.setTitle("Приключения Гекльберри Финна");
-		book3.setYear(1884);
-		bookRepository.save(book3);
+		book2.setTitle("Приключения Гекльберри Финна");
+		book2.setYear(1884);
+		bookService.addBook(book2);
 
 		Author author = new Author();
-		author.setFirstname("Марк");
-		author.setLastname("Твен");
-		authorRepository.save(author);
+		author.setFirstName("Марк");
+		author.setLastName("Твен");
+		authorService.addAuthor(author);
 
-		AuthorOfBook authorOfBook = new AuthorOfBook();
-		authorOfBook.setAuthor(author);
-		authorOfBook.setBook(book);
-		authorOfBookRepository.save(authorOfBook);
+		authorOfBookService.addAuthorOfBook(author, book1);
 
-		AuthorOfBook authorOfBook2 = new AuthorOfBook();
-		authorOfBook2.setAuthor(author);
-		authorOfBook2.setBook(book3);
-		authorOfBookRepository.save(authorOfBook2);
+		authorOfBookService.addAuthorOfBook(author, book2);
+
+		Book book3 = new Book();
+		book3.setTitle("Михаил Строгов");
+		book3.setYear(1876);
+		bookService.addBook(book3);
 
 		Author author2 = new Author();
-		author2.setFirstname("Жюль");
-		author2.setLastname("Верн");
-		authorRepository.save(author2);
+		author2.setFirstName("Жюль");
+		author2.setLastName("Верн");
+		authorService.addAuthor(author2);
 
-		AuthorOfBook authorOfBook3 = new AuthorOfBook();
-		authorOfBook3.setAuthor(author2);
-		authorOfBook3.setBook(book2);
-		authorOfBookRepository.save(authorOfBook3);
+		authorOfBookService.addAuthorOfBook(author2, book3);
 
 		Book book4 = new Book();
 		book4.setTitle("Буратино");
 		book4.setYear(1936);
-		bookRepository.save(book4);
+		bookService.addBook(book4);
 
 		Author author3 = new Author();
-		author3.setFirstname("Алексей");
-		author3.setLastname("Толстой");
-		authorRepository.save(author3);
+		author3.setFirstName("Алексей");
+		author3.setLastName("Толстой");
+		authorService.addAuthor(author3);
 
-		AuthorOfBook authorOfBook4 = new AuthorOfBook();
-		authorOfBook4.setAuthor(author3);
-		authorOfBook4.setBook(book4);
-		authorOfBookRepository.save(authorOfBook4);
+		authorOfBookService.addAuthorOfBook(author3, book4);
+
+		Customer customer = new Customer();
+		customer.setName("Алексей");
+		customer.setAddress("Красноярск");
+		customerService.addCustomer(customer);
+
+		purchasedBookService.addPurchasedBook(customer, book1, cost1);
+		purchasedBookService.addPurchasedBook(customer, book3, cost3);
+
+		Customer customer1 = new Customer();
+		customer1.setName("Андрей");
+		customer1.setAddress("Дивногорск");
+		customerService.addCustomer(customer1);
+
+		purchasedBookService.addPurchasedBook(customer1, book1, cost1);
+		purchasedBookService.addPurchasedBook(customer1, book2, cost2);
+		purchasedBookService.addPurchasedBook(customer1, book4, cost4);
+
+		Customer customer2 = new Customer();
+		customer2.setName("Денис");
+		customer2.setAddress("Сосновоборск");
+		customerService.addCustomer(customer2);
+
+		purchasedBookService.addPurchasedBook(customer2, book1, cost1);
+		purchasedBookService.addPurchasedBook(customer2, book3, cost3);
+		purchasedBookService.addPurchasedBook(customer2, book4, cost4);
+
+	}
+
+	@After
+	public void clear() {
+		purchasedBookService.deleteAll();
+		authorOfBookService.deleteAll();
+		customerService.deleteAll();
+		bookService.deleteAll();
+		authorService.deleteAll();
+	}
+
+	@Test
+	public void testSaveCustomer() {
+		assertEquals(3, customerService.getAllCustomers().size());
+		boolean founded = false;
+		for (Customer customer : customerService.getAllCustomers()) {
+			if (customer.getName().equals("Алексей")
+					&& customer.getId() > 0) {
+				founded = true;
+				break;
+			}
+		}
+		assertTrue(founded);
+	}
+
+	@Test
+	public void testSavePurchasedBook() {
+		assertEquals(8, purchasedBookService.getAllPurchasedBooks().size());
+		boolean founded = false;
+		for (PurchasedBook purchasedBook : purchasedBookService.getAllPurchasedBooks()) {
+			if (purchasedBook.getBook().getTitle().equals("Приключения Тома Сойера")
+					&& purchasedBook.getId() > 0) {
+				founded = true;
+				break;
+			}
+		}
+		assertTrue(founded);
+	}
+
+	@Test
+	public void testGetCostByBookTitle() {
+		int cost;
+
+		cost = purchasedBookService.getCostOfAllPurchasedBookByBookTitle("Приключения Тома Сойера");
+		assertEquals(cost1*3, cost);
+
+		cost = purchasedBookService.getCostOfAllPurchasedBookByBookTitle("Приключения Гекльберри Финна");
+		assertEquals(cost2*1, cost);
+
+		cost = purchasedBookService.getCostOfAllPurchasedBookByBookTitle("Михаил Строгов");
+		assertEquals(cost3*2, cost);
+
+		cost = purchasedBookService.getCostOfAllPurchasedBookByBookTitle("Буратино");
+		assertEquals(cost4*2, cost);
+	}
+
+	@Test
+	public void testGetCostByCustomerName() {
+		int cost;
+
+		cost = purchasedBookService.getCostOfAllPurchasedBookByCustomerName("Алексей");
+		assertEquals(cost1+cost3, cost);
+
+		cost = purchasedBookService.getCostOfAllPurchasedBookByCustomerName("Андрей");
+		assertEquals(cost1+cost2+cost4, cost);
+
+		cost = purchasedBookService.getCostOfAllPurchasedBookByCustomerName("Денис");
+		assertEquals(cost1+cost3+cost4, cost);
 	}
 
 	@Test
@@ -129,7 +223,7 @@ public class SpringDataApplicationTests {
 	}
 
 	@Test
-	public void testFindByAuthorLastname() {
+	public void testFindByAuthorLastName() {
 //		assertTrue(bookRepository.findByAuthor("Верн")
 //				.stream().allMatch(book -> book.getTitle().equals("Михаил Строгов")));
 	}
