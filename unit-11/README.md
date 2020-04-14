@@ -1,4 +1,4 @@
-# Занятие №12. Курсовой проект 
+# Занятие №11. Курсовой проект 
 
 # Презентация занятия - https://slides.com/siberian_integration_systems/javasis2019unit12#/
 
